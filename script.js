@@ -15,7 +15,7 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     const canvas = document.getElementById('certificate-canvas');
     const ctx = canvas.getContext('2d');
     const image = new Image();
-    image.src = "certificate_template.png";  // Make sure this matches your uploaded image filename
+    image.src = "certificate_template.png";  // Make sure the template is updated
 
     image.onload = function () {
         // Set canvas size to match the certificate image
@@ -26,16 +26,16 @@ document.getElementById('certificate-form').addEventListener('submit', function(
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
         // Customize text styling
-        ctx.font = "bold 50px Arial";  // Adjust font size as needed
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
 
-        // Insert the Name at the correct position
-        ctx.fillText(name, canvas.width / 2, canvas.height / 2);
+        // Insert Name (Bigger & Positioned Correctly)
+        ctx.font = "bold 80px Times New Roman";  // Match original font
+        ctx.fillText(name, canvas.width / 2, canvas.height * 0.48); // Adjust position
 
-        // Insert the Message below the name
-        ctx.font = "30px Arial";
-        ctx.fillText(message, canvas.width / 2, canvas.height / 2 + 100);
+        // Insert Message (Smaller & Below Name)
+        ctx.font = "40px Times New Roman"; // Match original style
+        ctx.fillText(message, canvas.width / 2, canvas.height * 0.55); // Adjust position
 
         // Convert canvas to PDF
         const { jsPDF } = window.jspdf;
