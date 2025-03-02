@@ -4,22 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate Generator</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <h1>Generate Your Certificate</h1>
-    <form id="certificateForm">
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" required>
 
-        <label for="message">Your Message:</label>
-        <input type="text" id="message">
+    <!-- User Input Form -->
+    <form id="certificate-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="message">Personal Message (Max 10 words):</label>
+        <input type="text" id="message" name="message" required>
 
         <button type="submit">Generate Certificate</button>
     </form>
 
-    <canvas id="certificateCanvas" width="800" height="600" style="display:none;"></canvas>
+    <!-- Certificate Preview -->
+    <div id="certificate-container">
+        <canvas id="certificate-canvas"></canvas>
+    </div>
 
     <script src="script.js"></script>
 </body>
