@@ -2,50 +2,48 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     e.preventDefault();
 
     const name = document.getElementById('name').value.trim();
-    let message = document.getElementById('message').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-    // Limit message to 10 words
-    const wordCount = message.split(/\s+/).length;
-    if (wordCount > 10) {
-        alert("Your personal message must be 10 words or fewer.");
+    if (message.split(' ').length > 10) {
+        alert("Your message must be 10 words or fewer.");
         return;
     }
 
-    // Load the certificate image
     const canvas = document.getElementById('certificate-canvas');
     const ctx = canvas.getContext('2d');
-    const image = new Image();
-    image.src = "certificate_template.png";  // Make sure the template is updated
+    const img = new Image();
+    img.src = 'certificate_template.png'; // Ensure this file is correctly uploaded
 
-    image.onload = function () {
-        // Set canvas size to match the certificate image
-        canvas.width = image.width;
-        canvas.height = image.height;
+    img.onload = function () {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        // Draw the certificate image
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        // Style for Name
+        ctx.font = '50px serif'; // Adjust to match original certificate
+        ctx.fillStyle = '#000';
+        ctx.textAlign = 'center';
+        ctx.fillText(name, canvas.width / 2, 400); // Adjust position to fit "NAME" section
 
-        // Customize text styling
-        ctx.fillStyle = "black";
-        ctx.textAlign = "center";
+        // Style for Message
+        ctx.font = '30px serif';
+        ctx.fillText(message, canvas.width / 2, 450); // Adjust to place under the name
 
-        // Insert Name (Bigger & Positioned Correctly)
-        ctx.font = "bold 80px Times New Roman";  // Match original font
-        ctx.fillText(name, canvas.width / 2, canvas.height * 0.48); // Adjust position
-
-        // Insert Message (Smaller & Below Name)
-        ctx.font = "40px Times New Roman"; // Match original style
-        ctx.fillText(message, canvas.width / 2, canvas.height * 0.55); // Adjust position
-
-        // Convert canvas to PDF
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({
-            orientation: "landscape",
-            unit: "px",
-            format: [canvas.width, canvas.height]
-        });
-
-        pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
-        pdf.save("certificate.pdf");
+        document.getElementById('download-btn').style.display = 'block';
     };
+});
+
+document.getElementById('download-btn').addEventListener('click', function () {
+    const canvas = document.getElementById('certificate-canvas');
+    const imgData = canvas.toDataURL('image/png');
+    
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+    });
+
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+    pdf.save('Certificate.pdf');
 });
