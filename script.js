@@ -1,32 +1,50 @@
-document.getElementById('certificateForm').addEventListener('submit', function(e) {
+document.getElementById('certificate-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const message = document.getElementById('message').value;
+    const name = document.getElementById('name').value.trim();
+    let message = document.getElementById('message').value.trim();
 
-    const canvas = document.getElementById('certificateCanvas');
+    // Limit message to 10 words
+    const wordCount = message.split(/\s+/).length;
+    if (wordCount > 10) {
+        alert("Your personal message must be 10 words or fewer.");
+        return;
+    }
+
+    // Load the certificate image
+    const canvas = document.getElementById('certificate-canvas');
     const ctx = canvas.getContext('2d');
+    const image = new Image();
+    image.src = "certificate_template.png";  // Make sure this matches your uploaded image filename
 
-    // Load certificate template
-    const img = new Image();
-    img.src = 'certificate_template.png'; // Make sure this path matches your uploaded file
+    image.onload = function () {
+        // Set canvas size to match the certificate image
+        canvas.width = image.width;
+        canvas.height = image.height;
 
-    img.onload = function() {
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        // Draw the certificate image
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-        // Add name
-        ctx.font = "40px Times New Roman";
+        // Customize text styling
+        ctx.font = "bold 50px Arial";  // Adjust font size as needed
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
-        ctx.fillText(name, 400, 300); // Adjust position to match "NAME" placement
 
-        // Add message
-        ctx.font = "20px Times New Roman";
-        ctx.fillText(message, 400, 350); // Adjust position as needed
+        // Insert the Name at the correct position
+        ctx.fillText(name, canvas.width / 2, canvas.height / 2);
 
-        // Convert to PDF
+        // Insert the Message below the name
+        ctx.font = "30px Arial";
+        ctx.fillText(message, canvas.width / 2, canvas.height / 2 + 100);
+
+        // Convert canvas to PDF
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({ orientation: "landscape", unit: "px", format: [canvas.width, canvas.height] });
+        const pdf = new jsPDF({
+            orientation: "landscape",
+            unit: "px",
+            format: [canvas.width, canvas.height]
+        });
+
         pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, canvas.width, canvas.height);
         pdf.save("certificate.pdf");
     };
