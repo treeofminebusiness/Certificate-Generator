@@ -20,28 +20,29 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     img.src = 'certificate_template.png';
 
     img.onload = function () {
-        // **Dynamic Scaling for Mobile**
-        const scaleFactor = Math.min(window.innerWidth / img.width, 1); // Scale down for small screens
+        const scaleFactor = Math.min(window.innerWidth / img.width, 1); 
         const canvasWidth = img.width * scaleFactor;
         const canvasHeight = img.height * scaleFactor;
 
-        // Apply new dimensions
         canvas.width = canvasWidth;
         canvas.height = canvasHeight;
         ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
-        // **Adjust Text Size Based on Scale**
-        const nameFontSize = 70 * scaleFactor;
-        const messageFontSize = 30 * scaleFactor;
-
-        ctx.font = `${nameFontSize}px serif`;
+        // **Font Settings (Same as 'OWNERSHIP')**
+        const fontSize = 90 * scaleFactor; // Matches "OWNERSHIP" size
+        ctx.font = `bold ${fontSize}px serif`;
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
-        // **Positioning Text Dynamically**
-        ctx.fillText(name, canvasWidth / 2, 500 * scaleFactor); // Adjust Y as needed
-        ctx.font = `${messageFontSize}px serif`;
-        ctx.fillText(message, canvasWidth / 2, 580 * scaleFactor);
+        // **Move Name Below 'OWNERSHIP'**
+        const nameY = 600 * scaleFactor;  // Adjust to perfect center
+
+        // **Move Message Above Second Line**
+        const messageY = 720 * scaleFactor;
+
+        ctx.fillText(name, canvasWidth / 2, nameY);
+        ctx.font = `italic ${fontSize / 2}px serif`;  // Smaller italic font for message
+        ctx.fillText(message, canvasWidth / 2, messageY);
 
         // **Auto-download PDF**
         downloadPDF(canvas);
@@ -52,7 +53,7 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     };
 });
 
-// **Updated PDF Download (Mobile Optimized)**
+// **Auto PDF Download**
 function downloadPDF(canvas) {
     const imgData = canvas.toDataURL('image/png');
 
