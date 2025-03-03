@@ -44,7 +44,7 @@
             const canvas = document.getElementById("certificateCanvas");
             const ctx = canvas.getContext("2d");
             const bg = new Image();
-            bg.src = "certificate-template.jpg"; // Replace with your actual certificate image URL
+            bg.src = "certificate-template.png"; // Use PNG instead of JPG
 
             // Set canvas size
             canvas.width = 800;
@@ -70,7 +70,7 @@
             const ctx = canvas.getContext("2d");
 
             const bg = new Image();
-            bg.src = "certificate-template.jpg"; // Make sure this image exists
+            bg.src = "certificate-template.png"; // PNG Certificate
 
             bg.onload = function () {
                 ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before redrawing
@@ -99,7 +99,7 @@
             const canvas = document.getElementById("certificateCanvas");
             const link = document.createElement("a");
             link.download = "Japan_Tree_Certificate.png";
-            link.href = canvas.toDataURL("image/png");
+            link.href = canvas.toDataURL("image/png"); // Save as PNG
             link.click();
         }
     </script>
