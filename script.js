@@ -33,16 +33,13 @@ document.getElementById('certificate-form').addEventListener('submit', function(
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
-        // **Move text 10 times down**
-        const moveDown = 10 * (ownershipFontSize / 2);
+        // **Final Sizes**
+        const nameFontSize = 250 * scaleFactor;  // **Massive Name**
+        const messageFontSize = 45 * scaleFactor;  // **Readable Message**
 
-        // **Updated Sizes**
-        const nameFontSize = ownershipFontSize * 10;  // **10x Bigger Name**
-        const messageFontSize = ownershipFontSize / 2;  // **Same as Before**
-
-        // **Updated Positions**
-        const nameY = (canvasHeight * 0.42) + moveDown;
-        const messageY = (canvasHeight * 0.50) + moveDown - (messageFontSize * 5);  // **5x Higher Message**
+        // **Final Positions**
+        const nameY = canvasHeight * 0.45;  // **Directly Under "OWNERSHIP"**
+        const messageY = nameY + 90;  // **Below Name, Above Line**
 
         // **Render Name**
         ctx.font = `bold ${nameFontSize}px serif`;
