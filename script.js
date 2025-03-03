@@ -33,19 +33,19 @@ function generateCertificate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Lowered the position of the name
+        // ✅ Move the name closer to the middle
         ctx.font = "100px 'EB Garamond', serif";  
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, 1800);  // Moved lower
+        ctx.fillText(name, canvas.width / 2, 2200);  // Moved to center
 
         // ✅ Limit message to 10 words
         const words = message.split(" ").slice(0, 10);
         message = words.join(" ");
 
-        // ✅ Lowered the position of the message
+        // ✅ Move the message below the name, in the middle
         ctx.font = "60px 'EB Garamond', serif";  
-        ctx.fillText(message, canvas.width / 2, 2000);  // Moved lower
+        ctx.fillText(message, canvas.width / 2, 2400);  // Moved to center
     };
 
     bg.onerror = function () {
