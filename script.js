@@ -1,5 +1,7 @@
-document.getElementById("generate").addEventListener("click", generateCertificate);
-document.getElementById("download").addEventListener("click", downloadCertificate);
+window.onload = function () {
+    document.getElementById("generate").addEventListener("click", generateCertificate);
+    document.getElementById("download").addEventListener("click", downloadCertificate);
+};
 
 function generateCertificate() {
     const name = document.getElementById("name").value.trim();
@@ -33,13 +35,24 @@ function generateCertificate() {
         ctx.font = "italic 5px 'EB Garamond', serif"; 
         ctx.fillText(message, canvas.width / 2, canvas.height * 0.63);
 
-        document.getElementById("certificate").src = canvas.toDataURL("image/png");
+        // Fix: Ensure the image exists before setting its src
+        const certificateImage = document.getElementById("certificate");
+        if (certificateImage) {
+            certificateImage.src = canvas.toDataURL("image/png");
+        } else {
+            console.error("Element with ID 'certificate' not found!");
+        }
     };
 }
 
 function downloadCertificate() {
-    const link = document.createElement("a");
-    link.download = "Japan_Tree_Certificate.png";
-    link.href = document.getElementById("certificate").src;
-    link.click();
+    const certificateImage = document.getElementById("certificate");
+    if (certificateImage && certificateImage.src) {
+        const link = document.createElement("a");
+        link.download = "Japan_Tree_Certificate.png";
+        link.href = certificateImage.src;
+        link.click();
+    } else {
+        console.error("No generated certificate found to download!");
+    }
 }
