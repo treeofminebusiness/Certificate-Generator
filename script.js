@@ -16,12 +16,12 @@ document.getElementById("generate").addEventListener("click", function () {
         ctx.font = "150px 'EB Garamond'";
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, canvas.height * 0.6);
+        ctx.fillText(name, canvas.width / 2, canvas.height * 0.58); // Slightly higher
 
-        // Custom Message Styling (Raised and Larger)
-        ctx.font = "15px 'EB Garamond'";
+        // Custom Message Styling (Significantly Raised & Larger)
+        ctx.font = "25px 'EB Garamond'";  // Increased from 15px → 25px for better visibility
         ctx.fillStyle = "black";
-        ctx.fillText(message, canvas.width / 2, canvas.height * 0.675);
+        ctx.fillText(message, canvas.width / 2, canvas.height * 0.62);  // Moved up a lot
 
         document.getElementById("certificate").src = canvas.toDataURL();
     };
