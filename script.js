@@ -30,21 +30,26 @@ document.getElementById('certificate-form').addEventListener('submit', function(
 
         // **Font Settings (Same as "OWNERSHIP")**
         const ownershipFontSize = 90 * scaleFactor;
-        ctx.font = `bold ${ownershipFontSize}px serif`;
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
         // **Move text 10 times down**
-        const moveDown = 10 * (ownershipFontSize / 2); // Move down based on font size
+        const moveDown = 10 * (ownershipFontSize / 2);  
 
-        // **Name Position (Under 'OWNERSHIP')**
+        // **Updated Sizes**
+        const nameFontSize = ownershipFontSize * 4;  // **4x Bigger Name**
+        const messageFontSize = ownershipFontSize / 2;  // **Same as Before**
+
+        // **Updated Positions**
         const nameY = (canvasHeight * 0.42) + moveDown;  
+        const messageY = (canvasHeight * 0.50) + moveDown - messageFontSize;  // **1x Higher Message**
 
-        // **Message Position (Above Second Underline)**
-        const messageY = (canvasHeight * 0.50) + moveDown;  
-
+        // **Render Name**
+        ctx.font = `bold ${nameFontSize}px serif`;
         ctx.fillText(name, canvasWidth / 2, nameY);
-        ctx.font = `italic ${ownershipFontSize / 2}px serif`;  
+
+        // **Render Message**
+        ctx.font = `italic ${messageFontSize}px serif`;  
         ctx.fillText(message, canvasWidth / 2, messageY);
 
         // **Auto-download PDF**
