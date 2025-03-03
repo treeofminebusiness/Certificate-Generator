@@ -28,20 +28,20 @@ document.getElementById('certificate-form').addEventListener('submit', function(
         canvas.height = canvasHeight;
         ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
-        // **Font Settings (Same as 'OWNERSHIP')**
-        const fontSize = 90 * scaleFactor; // Matches "OWNERSHIP" size
-        ctx.font = `bold ${fontSize}px serif`;
+        // **Font Settings (Same as "OWNERSHIP")**
+        const ownershipFontSize = 90 * scaleFactor; // Same as "OWNERSHIP"
+        ctx.font = `bold ${ownershipFontSize}px serif`;
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
-        // **Move Name Below 'OWNERSHIP'**
-        const nameY = 600 * scaleFactor;  // Adjust to perfect center
+        // **Name Position (Under 'OWNERSHIP')**
+        const nameY = canvasHeight * 0.42;  // Adjusted for perfect placement
 
-        // **Move Message Above Second Line**
-        const messageY = 720 * scaleFactor;
+        // **Message Position (Above Second Underline)**
+        const messageY = canvasHeight * 0.50;  
 
         ctx.fillText(name, canvasWidth / 2, nameY);
-        ctx.font = `italic ${fontSize / 2}px serif`;  // Smaller italic font for message
+        ctx.font = `italic ${ownershipFontSize / 2}px serif`;  // Message is smaller
         ctx.fillText(message, canvasWidth / 2, messageY);
 
         // **Auto-download PDF**
