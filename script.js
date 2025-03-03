@@ -3,7 +3,7 @@ window.onload = function () {
     const ctx = canvas.getContext('2d');
 
     const certificateImage = new Image();
-    certificateImage.src = 'certificate-template.png'; // Ensure correct file name
+    certificateImage.src = 'certificate-template.png';
 
     certificateImage.onload = function () {
         ctx.drawImage(certificateImage, 0, 0, canvas.width, canvas.height);
@@ -32,14 +32,14 @@ function generateCertificate() {
 
         ctx.textAlign = 'center';
 
-        // Big Bold Name (Capitalized, 200% bigger)
+        // Name - Big, bold, capitalized (200% bigger)
         ctx.font = '250px "EB Garamond", bold'; 
         ctx.fillStyle = 'black';
-        ctx.fillText(name, canvas.width / 2, 1800);  // Perfectly positioned
+        ctx.fillText(name, canvas.width / 2, 1800);
 
-        // Big Message (Same size as the fixed text at the bottom)
+        // Message - Smaller, normal style (same size as fixed text at bottom)
         ctx.font = '120px "EB Garamond", normal';
-        ctx.fillText(message, canvas.width / 2, 2000);  // Proper placement
+        ctx.fillText(message, canvas.width / 2, 2000);
     };
 }
 
