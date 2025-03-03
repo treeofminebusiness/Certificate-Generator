@@ -35,19 +35,19 @@ function generateCertificate() {
     bg.onload = function () {
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Make the name text **BOLD**
+        // ✅ Move the name **further down** the certificate
         ctx.font = "bold 150px 'EB Garamond', serif";  
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, canvas.height / 2 - 200);
+        ctx.fillText(name, canvas.width / 2, canvas.height / 2 + 100);  
 
         // ✅ Limit message to 10 words
         const words = message.split(" ").slice(0, 10);
         message = words.join(" ");
 
-        // ✅ Make the message text **BOLD**
+        // ✅ Move the message **further down** as well
         ctx.font = "bold 100px 'EB Garamond', serif";  
-        ctx.fillText(message, canvas.width / 2, canvas.height / 2 - 50);
+        ctx.fillText(message, canvas.width / 2, canvas.height / 2 + 250);
     };
 
     bg.onerror = function () {
