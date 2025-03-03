@@ -17,36 +17,36 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     const canvas = document.getElementById('certificate-canvas');
     const ctx = canvas.getContext('2d');
     const img = new Image();
-    img.src = 'certificate_template.png'; // Make sure this file exists in your GitHub repo
+    img.src = 'certificate_template.png';
 
     img.onload = function () {
-        // Set canvas size to match the certificate template
+        // Set canvas size
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        // Set text styles to match "OWNERSHIP"
-        ctx.font = '70px serif'; // Adjusted to match "OWNERSHIP" font size
+        // Text settings to match "OWNERSHIP"
+        ctx.font = '70px serif'; // Match font size
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
-        // Draw the Name in the correct marked area
-        ctx.fillText(name, canvas.width / 2, 600); // Adjust Y-position as needed
+        // Positioning for name (inside the red-marked area)
+        ctx.fillText(name, canvas.width / 2, 500); // Adjust Y-coordinate as needed
 
-        // Draw the Message below the name, still above the thin line
+        // Positioning for message below the name but above the second underline
         ctx.font = '30px serif';
-        ctx.fillText(message, canvas.width / 2, 680);
+        ctx.fillText(message, canvas.width / 2, 580);
 
-        // Automatically download the PDF
+        // Auto-download PDF
         downloadPDF();
     };
 
     img.onerror = function() {
-        alert("Error: Certificate template image not found. Make sure it's uploaded correctly.");
+        alert("Error: Certificate template image not found.");
     };
 });
 
-// Function to download the PDF automatically
+// Auto-download function
 function downloadPDF() {
     const canvas = document.getElementById('certificate-canvas');
     const imgData = canvas.toDataURL('image/png');
