@@ -3,32 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Japan Tree Certificate Generator</title>
+    <title>Japan Tree Certificate</title>
     <style>
         body {
             text-align: center;
             font-family: 'EB Garamond', serif;
         }
         canvas {
-            border: 1px solid black;
-            max-width: 100%;
+            width: 100%;
+            max-width: 794px; /* A4 width */
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        #warning {
+            color: red;
+            font-size: 14px;
+            display: none;
         }
     </style>
 </head>
 <body>
+
     <h1>Japan Tree Certificate Generator</h1>
-    <label for="name">Enter Name:</label>
-    <input type="text" id="name" placeholder="Your Name">
-    <br><br>
-    <label for="message">Enter Custom Message (Max 10 words):</label>
-    <input type="text" id="message" placeholder="Your Message">
-    <br><br>
-    <button onclick="generateCertificate()">Generate</button>
-    <br><br>
-    <canvas id="certificateCanvas" width="2480" height="3508"></canvas>  <!-- A4 size in pixels -->
-    <br><br>
-    <button onclick="downloadCertificate()">Download Certificate</button>
     
+    <input type="text" id="nameInput" placeholder="Enter Name (CAPITALS ONLY)" maxlength="20">
+    <br>
+    <input type="text" id="messageInput" placeholder="Enter Custom Message (Max 10 Words)">
+    <br>
+    <span id="warning">⚠ Only 10 words allowed. Extra words will be ignored.</span>
+    <br>
+    <button onclick="generateCertificate()">Generate Certificate</button>
+    <button onclick="downloadCertificate()">Download</button>
+    
+    <br><br>
+    
+    <canvas id="certificateCanvas"></canvas>
+
     <script src="script.js"></script>
+
 </body>
 </html>
