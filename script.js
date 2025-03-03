@@ -34,22 +34,22 @@ document.getElementById('certificate-form').addEventListener('submit', function(
         ctx.textAlign = 'center';
 
         // **Move text 10 times down**
-        const moveDown = 10 * (ownershipFontSize / 2);  
+        const moveDown = 10 * (ownershipFontSize / 2);
 
         // **Updated Sizes**
-        const nameFontSize = ownershipFontSize * 4;  // **4x Bigger Name**
+        const nameFontSize = ownershipFontSize * 10;  // **10x Bigger Name**
         const messageFontSize = ownershipFontSize / 2;  // **Same as Before**
 
         // **Updated Positions**
-        const nameY = (canvasHeight * 0.42) + moveDown;  
-        const messageY = (canvasHeight * 0.50) + moveDown - messageFontSize;  // **1x Higher Message**
+        const nameY = (canvasHeight * 0.42) + moveDown;
+        const messageY = (canvasHeight * 0.50) + moveDown - (messageFontSize * 5);  // **5x Higher Message**
 
         // **Render Name**
         ctx.font = `bold ${nameFontSize}px serif`;
         ctx.fillText(name, canvasWidth / 2, nameY);
 
         // **Render Message**
-        ctx.font = `italic ${messageFontSize}px serif`;  
+        ctx.font = `italic ${messageFontSize}px serif`;
         ctx.fillText(message, canvasWidth / 2, messageY);
 
         // **Auto-download PDF**
