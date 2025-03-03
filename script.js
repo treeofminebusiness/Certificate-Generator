@@ -15,13 +15,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Generate certificate with name and message
 function generateCertificate() {
-    const name = document.getElementById("nameInput").value.trim();
+    let name = document.getElementById("nameInput").value.trim();
     let message = document.getElementById("messageInput").value.trim();
 
     if (!name) {
         alert("Please enter a name.");
         return;
     }
+
+    // ✅ Convert name to ALL CAPS
+    name = name.toUpperCase();
 
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
@@ -35,18 +38,21 @@ function generateCertificate() {
     bg.onload = function () {
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Name same size as "Ownership" and positioned just above the second line
-        ctx.font = "bold 200px 'EB Garamond', serif";  
+        // ✅ Name is 200% bigger than before (super large)
+        ctx.font = "bold 400px 'EB Garamond', serif";  
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
         ctx.fillText(name, canvas.width / 2, canvas.height * 0.72);  
 
         // ✅ Limit message to 10 words
-        const words = message.split(" ").slice(0, 10);
-        message = words.join(" ");
+        const words = message.split(" ");
+        if (words.length > 10) {
+            alert("Your message is too long! Only the first 10 words will be used.");
+            message = words.slice(0, 10).join(" ");
+        }
 
-        // ✅ Message same size as "Divine Owner" and placed under name
-        ctx.font = "bold 120px 'EB Garamond', serif";  
+        // ✅ Message has a thinner font, like the fixed writing at the bottom
+        ctx.font = "300px 'EB Garamond', serif";  
         ctx.fillText(message, canvas.width / 2, canvas.height * 0.78);
     };
 
