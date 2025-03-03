@@ -1,74 +1,51 @@
-document.getElementById('certificate-form').addEventListener('submit', function(e) {
-    e.preventDefault();
+// Wait for the page to load
+window.onload = function() {
+    const canvas = document.getElementById("certificateCanvas");
+    const ctx = canvas.getContext("2d");
 
-    const name = document.getElementById('name').value.trim();
-    const message = document.getElementById('message').value.trim();
+    const template = new Image();
+    template.src = "certificate_template.png"; // Make sure this file is correctly linked
 
-    if (!name) {
-        alert("Please enter your name.");
-        return;
-    }
+    template.onload = function() {
+        ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
+    };
 
-    if (message.split(' ').length > 10) {
-        alert("Your message must be 10 words or fewer.");
-        return;
-    }
+    document.getElementById("generate").addEventListener("click", function() {
+        const name = document.getElementById("nameInput").value;
+        const message = document.getElementById("messageInput").value;
 
-    const canvas = document.getElementById('certificate-canvas');
-    const ctx = canvas.getContext('2d');
-    const img = new Image();
-    img.src = 'certificate_template.png';
+        if (!name) {
+            alert("Please enter a name.");
+            return;
+        }
 
-    img.onload = function () {
-        const scaleFactor = Math.min(window.innerWidth / img.width, 1);
-        const canvasWidth = img.width * scaleFactor;
-        const canvasHeight = img.height * scaleFactor;
+        ctx.clearRect(0, 0, canvas.width, canvas.height); 
+        ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 
-        canvas.width = canvasWidth;
-        canvas.height = canvasHeight;
-        ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+        ctx.textAlign = "center";
+        ctx.fillStyle = "black";
 
-        // **Font Settings (Same as "OWNERSHIP")**
-        const ownershipFontSize = 90 * scaleFactor;
-        ctx.fillStyle = '#000';
-        ctx.textAlign = 'center';
-
-        // **Final Sizes**
-        const nameFontSize = 250 * scaleFactor;  // **Massive Name**
-        const messageFontSize = 45 * scaleFactor;  // **Readable Message**
-
-        // **Final Positions**
-        const nameY = canvasHeight * 0.45;  // **Directly Under "OWNERSHIP"**
-        const messageY = nameY + 90;  // **Below Name, Above Line**
-
-        // **Render Name**
+        // Font size scaling
+        const scaleFactor = canvas.width / 800;  
+        
+        // Custom Name Formatting
+        const nameFontSize = 125 * scaleFactor;  // Adjusted size
+        const nameY = 480; // Position under "OWNERSHIP" but above the line
         ctx.font = `bold ${nameFontSize}px serif`;
-        ctx.fillText(name, canvasWidth / 2, nameY);
+        ctx.fillText(name, canvas.width / 2, nameY);
 
-        // **Render Message**
+        // Custom Message Formatting
+        const messageFontSize = 22 * scaleFactor;  // Adjusted size
+        const messageY = nameY + 90;  // Positioned below the name
         ctx.font = `italic ${messageFontSize}px serif`;
-        ctx.fillText(message, canvasWidth / 2, messageY);
-
-        // **Auto-download PDF**
-        downloadPDF(canvas);
-    };
-
-    img.onerror = function() {
-        alert("Error: Certificate template image not found.");
-    };
-});
-
-// **Auto PDF Download**
-function downloadPDF(canvas) {
-    const imgData = canvas.toDataURL('image/png');
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'px',
-        format: [canvas.width, canvas.height]
+        ctx.fillText(message, canvas.width / 2, messageY);
     });
 
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-    pdf.save('Certificate.pdf');
-}
+    // Automatic PDF Download After Generation
+    document.getElementById("download").addEventListener("click", function() {
+        const link = document.createElement("a");
+        link.download = "Certificate.pdf";
+        link.href = canvas.toDataURL("image/pdf").replace("image/pdf", "application/pdf");
+        link.click();
+    });
+};
