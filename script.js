@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
     const bg = new Image();
-    bg.src = "certificate-template.png"; // ✅ Make sure this file exists
+    bg.src = "certificate-template.png"; // ✅ Ensure this file exists
 
     // ✅ Set Canvas to A4 size (Portrait: 2480 x 3508)
     canvas.width = 2480;
@@ -26,26 +26,27 @@ function generateCertificate() {
     const canvas = document.getElementById("certificateCanvas");
     const ctx = canvas.getContext("2d");
 
+    // ✅ CLEAR the canvas before drawing again
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     const bg = new Image();
-    bg.src = "certificate-template.png"; // ✅ Ensure the file is correctly named
+    bg.src = "certificate-template.png"; // ✅ Make sure the file exists
 
     bg.onload = function () {
-        // ✅ CLEAR CANVAS TO FORCE REDRAW
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Move the name **HALFWAY UP** from the last position
-        ctx.font = "150px 'EB Garamond', serif";  
+        // ✅ Make the name text **BOLD**
+        ctx.font = "bold 150px 'EB Garamond', serif";  
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, canvas.height / 2 - 200);  
+        ctx.fillText(name, canvas.width / 2, canvas.height / 2 - 200);
 
         // ✅ Limit message to 10 words
         const words = message.split(" ").slice(0, 10);
         message = words.join(" ");
 
-        // ✅ Move the message **HALFWAY UP** from the last position
-        ctx.font = "100px 'EB Garamond', serif";  
+        // ✅ Make the message text **BOLD**
+        ctx.font = "bold 100px 'EB Garamond', serif";  
         ctx.fillText(message, canvas.width / 2, canvas.height / 2 - 50);
     };
 
