@@ -20,25 +20,31 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     img.src = 'certificate_template.png';
 
     img.onload = function () {
-        // Set canvas size
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, img.width, img.height);
+        // **Dynamic Scaling for Mobile**
+        const scaleFactor = Math.min(window.innerWidth / img.width, 1); // Scale down for small screens
+        const canvasWidth = img.width * scaleFactor;
+        const canvasHeight = img.height * scaleFactor;
 
-        // Text settings to match "OWNERSHIP"
-        ctx.font = '70px serif'; // Match font size
+        // Apply new dimensions
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+
+        // **Adjust Text Size Based on Scale**
+        const nameFontSize = 70 * scaleFactor;
+        const messageFontSize = 30 * scaleFactor;
+
+        ctx.font = `${nameFontSize}px serif`;
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
-        // Positioning for name (inside the red-marked area)
-        ctx.fillText(name, canvas.width / 2, 500); // Adjust Y-coordinate as needed
+        // **Positioning Text Dynamically**
+        ctx.fillText(name, canvasWidth / 2, 500 * scaleFactor); // Adjust Y as needed
+        ctx.font = `${messageFontSize}px serif`;
+        ctx.fillText(message, canvasWidth / 2, 580 * scaleFactor);
 
-        // Positioning for message below the name but above the second underline
-        ctx.font = '30px serif';
-        ctx.fillText(message, canvas.width / 2, 580);
-
-        // Auto-download PDF
-        downloadPDF();
+        // **Auto-download PDF**
+        downloadPDF(canvas);
     };
 
     img.onerror = function() {
@@ -46,9 +52,8 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     };
 });
 
-// Auto-download function
-function downloadPDF() {
-    const canvas = document.getElementById('certificate-canvas');
+// **Updated PDF Download (Mobile Optimized)**
+function downloadPDF(canvas) {
     const imgData = canvas.toDataURL('image/png');
 
     const { jsPDF } = window.jspdf;
