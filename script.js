@@ -27,25 +27,26 @@ function generateCertificate() {
     const ctx = canvas.getContext("2d");
 
     const bg = new Image();
-    bg.src = "certificate-template.png"; // ✅ Make sure this path is correct
+    bg.src = "certificate-template.png"; // ✅ Ensure the file is correctly named
 
     bg.onload = function () {
+        // ✅ CLEAR CANVAS TO FORCE REDRAW
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Move the name closer to the middle
-        ctx.font = "100px 'EB Garamond', serif";  
+        // ✅ Move the name **EXACTLY TO THE MIDDLE**
+        ctx.font = "150px 'EB Garamond', serif";  
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, 2200);  // Moved to center
+        ctx.fillText(name, canvas.width / 2, canvas.height / 2 - 100);
 
         // ✅ Limit message to 10 words
         const words = message.split(" ").slice(0, 10);
         message = words.join(" ");
 
-        // ✅ Move the message below the name, in the middle
-        ctx.font = "60px 'EB Garamond', serif";  
-        ctx.fillText(message, canvas.width / 2, 2400);  // Moved to center
+        // ✅ Move message **RIGHT BELOW the name**
+        ctx.font = "100px 'EB Garamond', serif";  
+        ctx.fillText(message, canvas.width / 2, canvas.height / 2 + 50);
     };
 
     bg.onerror = function () {
