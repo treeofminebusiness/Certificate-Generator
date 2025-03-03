@@ -1,34 +1,97 @@
-<!DOCUTYPE html>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate Generator</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        #certificate-container {
+            position: relative;
+            width: 800px;
+            height: 600px;
+            margin: auto;
+        }
+        #certificate {
+            width: 100%;
+            height: 100%;
+        }
+        .input-container {
+            margin: 20px;
+        }
+        canvas {
+            border: 2px solid black;
+        }
+    </style>
 </head>
 <body>
-    <h1>Generate Your Certificate</h1>
-    
-    <form id="certificate-form">
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" name="name" maxlength="30" required>
 
-        <label for="message">Personal Message (Max 10 Words):</label>
-        <input type="text" id="message" name="message" maxlength="100" required>
+    <h1>Generate Your Japan Tree Certificate</h1>
 
-        <button type="submit">Generate Certificate</button>
-    </form>
-
-    <div id="certificate-container">
-        <canvas id="certificate-canvas"></canvas>
+    <div class="input-container">
+        <input type="text" id="nameInput" placeholder="Enter your name">
+        <input type="text" id="messageInput" placeholder="Enter a short message (max 10 words)">
+        <button onclick="generateCertificate()">Generate</button>
+        <button onclick="downloadCertificate()">Download</button>
     </div>
 
-    <button id="download-btn" style="display: none;">Download PDF</button>
+    <div id="certificate-container">
+        <canvas id="certificateCanvas"></canvas>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        function generateCertificate() {
+            const name = document.getElementById("nameInput").value;
+            let message = document.getElementById("messageInput").value;
+
+            if (!name.trim()) {
+                alert("Please enter a name.");
+                return;
+            }
+
+            const canvas = document.getElementById("certificateCanvas");
+            const ctx = canvas.getContext("2d");
+
+            // Set canvas size
+            canvas.width = 800;
+            canvas.height = 600;
+
+            // Load certificate background
+            const bg = new Image();
+            bg.src = "certificate-template.jpg"; // Replace with your actual certificate image URL
+
+            bg.onload = function () {
+                ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+                // Set text styles
+                ctx.font = "40px Arial";
+                ctx.fillStyle = "#000";
+                ctx.textAlign = "center";
+
+                // Place the name in the correct spot
+                ctx.fillText(name, canvas.width / 2, 280);
+
+                // Limit message to 10 words
+                const words = message.split(" ").slice(0, 10);
+                message = words.join(" ");
+
+                // Display message below the name
+                ctx.font = "25px Arial";
+                ctx.fillText(message, canvas.width / 2, 340);
+            };
+        }
+
+        function downloadCertificate() {
+            const canvas = document.getElementById("certificateCanvas");
+            const link = document.createElement("a");
+            link.download = "Japan_Tree_Certificate.png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+        }
+    </script>
+
 </body>
 </html>
