@@ -33,19 +33,19 @@ function generateCertificate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Apply EB Garamond font for name
-        ctx.font = "100px 'EB Garamond', serif";
+        // ✅ Lowered the position of the name
+        ctx.font = "100px 'EB Garamond', serif";  
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, 1400);
+        ctx.fillText(name, canvas.width / 2, 1800);  // Moved lower
 
         // ✅ Limit message to 10 words
         const words = message.split(" ").slice(0, 10);
         message = words.join(" ");
 
-        // ✅ Apply EB Garamond font for message
-        ctx.font = "60px 'EB Garamond', serif";
-        ctx.fillText(message, canvas.width / 2, 1600);
+        // ✅ Lowered the position of the message
+        ctx.font = "60px 'EB Garamond', serif";  
+        ctx.fillText(message, canvas.width / 2, 2000);  // Moved lower
     };
 
     bg.onerror = function () {
