@@ -8,15 +8,15 @@ document.getElementById('certificate-form').addEventListener('submit', function 
     const ctx = canvas.getContext('2d');
 
     const img = new Image();
-    img.src = 'certificate_template.png'; // Make sure this is correct
+    img.src = 'certificate_template.png'; // Make sure this file exists in your project
 
     img.onload = function () {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // **Name (200% Bigger)**
-        ctx.font = '240px YOUR_FONT_HERE';  // Previously 120px, now doubled
+        // **Name (300px)**
+        ctx.font = '300px YOUR_FONT_HERE';  // Increased from 240px to 300px
         ctx.fillStyle = 'black';
         ctx.textAlign = 'center';
         ctx.fillText(name, canvas.width / 2, 950);  // Same position, just bigger
