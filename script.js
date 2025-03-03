@@ -20,7 +20,7 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     img.src = 'certificate_template.png';
 
     img.onload = function () {
-        const scaleFactor = Math.min(window.innerWidth / img.width, 1); 
+        const scaleFactor = Math.min(window.innerWidth / img.width, 1);
         const canvasWidth = img.width * scaleFactor;
         const canvasHeight = img.height * scaleFactor;
 
@@ -29,19 +29,22 @@ document.getElementById('certificate-form').addEventListener('submit', function(
         ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
         // **Font Settings (Same as "OWNERSHIP")**
-        const ownershipFontSize = 90 * scaleFactor; // Same as "OWNERSHIP"
+        const ownershipFontSize = 90 * scaleFactor;
         ctx.font = `bold ${ownershipFontSize}px serif`;
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
+        // **Move text 10 times down**
+        const moveDown = 10 * (ownershipFontSize / 2); // Move down based on font size
+
         // **Name Position (Under 'OWNERSHIP')**
-        const nameY = canvasHeight * 0.42;  // Adjusted for perfect placement
+        const nameY = (canvasHeight * 0.42) + moveDown;  
 
         // **Message Position (Above Second Underline)**
-        const messageY = canvasHeight * 0.50;  
+        const messageY = (canvasHeight * 0.50) + moveDown;  
 
         ctx.fillText(name, canvasWidth / 2, nameY);
-        ctx.font = `italic ${ownershipFontSize / 2}px serif`;  // Message is smaller
+        ctx.font = `italic ${ownershipFontSize / 2}px serif`;  
         ctx.fillText(message, canvasWidth / 2, messageY);
 
         // **Auto-download PDF**
