@@ -33,8 +33,8 @@ function generateCertificate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Set font for NAME (Match "OWNERSHIP" font)
-        ctx.font = "100px 'Playfair Display', serif"; 
+        // ✅ Apply EB Garamond font for name
+        ctx.font = "100px 'EB Garamond', serif";
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
         ctx.fillText(name, canvas.width / 2, 1400);
@@ -43,8 +43,8 @@ function generateCertificate() {
         const words = message.split(" ").slice(0, 10);
         message = words.join(" ");
 
-        // ✅ Set font for MESSAGE (Same as "OWNERSHIP" font)
-        ctx.font = "60px 'Playfair Display', serif"; 
+        // ✅ Apply EB Garamond font for message
+        ctx.font = "60px 'EB Garamond', serif";
         ctx.fillText(message, canvas.width / 2, 1600);
     };
 
@@ -60,6 +60,6 @@ function downloadCertificate() {
 
     // ✅ Ensure high-quality A4 download
     link.download = "Japan_Tree_Certificate.png";
-    link.href = canvas.toDataURL("image/png", 1.0); 
+    link.href = canvas.toDataURL("image/png", 1.0);
     link.click();
 }
