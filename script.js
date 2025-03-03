@@ -1,42 +1,63 @@
-document.getElementById('certificate-form').addEventListener('submit', function (e) {
-    e.preventDefault();
+// Wait until the DOM is fully loaded
+document.addEventListener("DOMContentLoaded", function () {
+    const canvas = document.getElementById("certificateCanvas");
+    const ctx = canvas.getContext("2d");
+    const bg = new Image();
+    bg.src = "certificate-template.jpg"; // Replace with your actual certificate image URL
 
-    const name = document.getElementById('name').value;
-    const message = document.getElementById('message').value;
+    // Set canvas size
+    canvas.width = 800;
+    canvas.height = 600;
 
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    const img = new Image();
-    img.src = 'certificate_template.png'; // Ensure this file is correctly placed in your project
-
-    img.onload = function () {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-        // **Name (250px, centered)**
-        ctx.font = '250px YOUR_FONT_HERE';  // Keep it at 250px
-        ctx.fillStyle = 'black';
-        ctx.textAlign = 'center';
-        ctx.fillText(name, canvas.width / 2, 950);  // Positioning remains the same
-
-        // **Message (50px, adjusted position)**
-        ctx.font = '50px YOUR_FONT_HERE'; 
-        ctx.fillText(message, canvas.width / 2, 1120);  // Slightly adjusted lower
-
-        // **Convert to PDF**
-        html2canvas(canvas).then((capturedCanvas) => {
-            const imgData = capturedCanvas.toDataURL('image/png');
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF({
-                orientation: 'landscape',
-                unit: 'px',
-                format: [canvas.width, canvas.height]
-            });
-
-            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-            pdf.save('certificate.pdf');
-        });
+    // Load and draw the background when the image is ready
+    bg.onload = function () {
+        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
     };
 });
+
+// Function to generate the certificate
+function generateCertificate() {
+    const name = document.getElementById("nameInput").value.trim();
+    let message = document.getElementById("messageInput").value.trim();
+
+    if (!name) {
+        alert("Please enter a name.");
+        return;
+    }
+
+    const canvas = document.getElementById("certificateCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const bg = new Image();
+    bg.src = "certificate-template.jpg"; // Make sure this image exists
+
+    bg.onload = function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before redrawing
+        ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+        // Set font styles
+        ctx.font = "40px Arial";
+        ctx.fillStyle = "#000";
+        ctx.textAlign = "center";
+
+        // Place the name in the certificate
+        ctx.fillText(name, canvas.width / 2, 280);
+
+        // Limit message to 10 words
+        const words = message.split(" ").slice(0, 10);
+        message = words.join(" ");
+
+        // Display the message below the name
+        ctx.font = "25px Arial";
+        ctx.fillText(message, canvas.width / 2, 340);
+    };
+}
+
+// Function to download the certificate
+function downloadCertificate() {
+    const canvas = document.getElementById("certificateCanvas");
+    const link = document.createElement("a");
+    link.download = "Japan_Tree_Certificate.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+}
