@@ -1,58 +1,28 @@
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("generate").addEventListener("click", generateCertificate);
-    document.getElementById("download").addEventListener("click", downloadCertificate);
-});
-
-function generateCertificate() {
-    const name = document.getElementById("name").value.trim();
-    let message = document.getElementById("message").value.trim();
-
-    // Limit custom message to 10 words
-    const words = message.split(/\s+/);
-    if (words.length > 10) {
-        message = words.slice(0, 10).join(" ");
-        alert("Custom message is limited to 10 words.");
-    }
-
+document.getElementById("generate").addEventListener("click", function () {
+    const name = document.getElementById("name").value.toUpperCase();
+    const message = document.getElementById("message").value;
+    
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
-
     const img = new Image();
-    img.src = "certificate-template.png";
-
+    
+    img.src = "certificate_template.png";  // Ensure this file is in the correct path
     img.onload = function () {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // Name settings (150px, all caps)
-        ctx.font = "bold 150px 'EB Garamond', serif";
+        // Name Styling
+        ctx.font = "150px 'EB Garamond'";
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
-        ctx.fillText(name.toUpperCase(), canvas.width / 2, canvas.height * 0.55);
+        ctx.fillText(name, canvas.width / 2, canvas.height * 0.6);
 
-        // Custom message settings (smaller size - 10px, thinner font)
-        ctx.font = "italic 10px 'EB Garamond', serif"; 
-        ctx.fillText(message, canvas.width / 2, canvas.height * 0.63);
+        // Custom Message Styling (Raised and Larger)
+        ctx.font = "15px 'EB Garamond'";
+        ctx.fillStyle = "black";
+        ctx.fillText(message, canvas.width / 2, canvas.height * 0.675);
 
-        // Fix: Ensure the image exists before setting its src
-        const certificateImage = document.getElementById("certificate");
-        if (certificateImage) {
-            certificateImage.src = canvas.toDataURL("image/png");
-        } else {
-            console.error("Element with ID 'certificate' not found!");
-        }
+        document.getElementById("certificate").src = canvas.toDataURL();
     };
-}
-
-function downloadCertificate() {
-    const certificateImage = document.getElementById("certificate");
-    if (certificateImage && certificateImage.src) {
-        const link = document.createElement("a");
-        link.download = "Japan_Tree_Certificate.png";
-        link.href = certificateImage.src;
-        link.click();
-    } else {
-        console.error("No generated certificate found to download!");
-    }
-}
+});
