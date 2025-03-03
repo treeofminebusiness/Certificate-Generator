@@ -11,24 +11,37 @@
         }
         canvas {
             border: 1px solid black;
-            max-width: 100%;
+            width: 100%;  /* Ensures it scales well */
+            max-width: 595px;  /* A4 width in pixels for phone */
+            height: auto;  /* Keeps aspect ratio */
+            display: block;
+            margin: 0 auto;
+        }
+        input {
+            font-size: 16px;
+            padding: 5px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h1>Japan Tree Certificate Generator</h1>
+    <h1>Japan Tree Certificate</h1>
     <label for="name">Enter Name:</label>
     <input type="text" id="name" placeholder="Your Name">
-    <br><br>
-    <label for="message">Enter Custom Message (Max 10 words):</label>
-    <input type="text" id="message" placeholder="Your Message">
-    <br><br>
-    <button onclick="generateCertificate()">Generate</button>
-    <br><br>
-    <canvas id="certificateCanvas" width="2480" height="3508"></canvas>  <!-- A4 size -->
-    <br><br>
-    <button onclick="downloadCertificate()">Download Certificate</button>
     
+    <label for="message">Custom Message (10 words max):</label>
+    <input type="text" id="message" placeholder="Your Message">
+    
+    <button onclick="generateCertificate()">Generate Certificate</button>
+    <button onclick="downloadCertificate()">Download</button>
+    
+    <br><br>
+    <canvas id="certificateCanvas" width="2480" height="3508"></canvas>
+
     <script src="script.js"></script>
 </body>
 </html>
