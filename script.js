@@ -4,7 +4,7 @@ window.onload = function() {
     const ctx = canvas.getContext("2d");
 
     const template = new Image();
-    template.src = "certificate_template.png"; // Make sure this file is correctly linked
+    template.src = "certificate_template.png"; // Ensure this file is correctly linked
 
     template.onload = function() {
         ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
@@ -28,14 +28,14 @@ window.onload = function() {
         // Font size scaling
         const scaleFactor = canvas.width / 800;  
         
-        // Custom Name Formatting
-        const nameFontSize = 125 * scaleFactor;  // Adjusted size
-        const nameY = 480; // Position under "OWNERSHIP" but above the line
+        // Adjusted Name Formatting (15 times smaller)
+        const nameFontSize = (125 / 15) * scaleFactor;  
+        const nameY = 480; // Positioned below "OWNERSHIP" but above the line
         ctx.font = `bold ${nameFontSize}px serif`;
         ctx.fillText(name, canvas.width / 2, nameY);
 
-        // Custom Message Formatting
-        const messageFontSize = 22 * scaleFactor;  // Adjusted size
+        // Adjusted Message Formatting
+        const messageFontSize = (22 / 15) * scaleFactor;  
         const messageY = nameY + 90;  // Positioned below the name
         ctx.font = `italic ${messageFontSize}px serif`;
         ctx.fillText(message, canvas.width / 2, messageY);
