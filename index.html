@@ -3,48 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Japan Tree Certificate Generator</title>
-
-    <!-- ✅ Load EB Garamond font -->
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@700&display=swap" rel="stylesheet">
-
+    <title>Japan Tree Certificate</title>
     <style>
         body {
+            font-family: 'EB Garamond', serif;
             text-align: center;
-            font-family: Arial, sans-serif;
-        }
-        .input-container {
-            margin: 20px;
-        }
-        #certificate-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            margin: auto;
         }
         canvas {
-            width: 100%;
-            height: auto;
-            border: 2px solid black;
+            border: 1px solid #ccc;
+            display: block;
+            margin: 20px auto;
+        }
+        input, button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Generate Your Japan Tree Certificate</h1>
+    <h1>Japan Tree Certificate</h1>
 
-    <div class="input-container">
-        <input type="text" id="nameInput" placeholder="Enter your name">
-        <input type="text" id="messageInput" placeholder="Enter a short message (max 10 words)">
-        <button onclick="generateCertificate()">Generate</button>
-        <button onclick="downloadCertificate()">Download</button>
-    </div>
+    <label for="nameInput">Enter Name:</label>
+    <input type="text" id="nameInput" placeholder="Your Name">
 
-    <div id="certificate-container">
-        <canvas id="certificateCanvas"></canvas>
-    </div>
+    <label for="messageInput">Custom Message (10 words max):</label>
+    <input type="text" id="messageInput" placeholder="Your message">
 
-    <!-- ✅ Load the JavaScript file -->
+    <button onclick="generateCertificate()">Generate Certificate</button>
+    <button onclick="downloadCertificate()">Download</button>
+
+    <canvas id="certificateCanvas"></canvas>
+
     <script src="script.js"></script>
 
 </body>
