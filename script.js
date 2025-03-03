@@ -1,49 +1,72 @@
-document.getElementById('certificate-form').addEventListener('submit', function (e) {
+document.getElementById('certificate-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const message = document.getElementById('message').value;
+    const name = document.getElementById('name').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-    const canvas = document.createElement('canvas');
+    if (!name) {
+        alert("Please enter your name.");
+        return;
+    }
+
+    if (message.split(' ').length > 10) {
+        alert("Your message must be 10 words or fewer.");
+        return;
+    }
+
+    const canvas = document.getElementById('certificate-canvas');
     const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = 'certificate_template.png';
 
-    const image = new Image();
-    image.src = 'certificate_template.png'; // Ensure this file exists in your repo
+    img.onload = function () {
+        const scaleFactor = Math.min(window.innerWidth / img.width, 1);
+        const canvasWidth = img.width * scaleFactor;
+        const canvasHeight = img.height * scaleFactor;
 
-    image.onload = function () {
-        canvas.width = image.width;
-        canvas.height = image.height;
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
-        const scaleFactor = canvas.width / 1000; // Adjust size dynamically
-
-        // **Custom Name Placement & Size (10× Bigger)**
-        const nameFontSize = (125 / 1.5) * scaleFactor; // Increased size
-        ctx.font = `bold ${nameFontSize}px "YourCertificateFont"`;
-        ctx.fillStyle = '#000000';
+        // **Font Settings (Same as "OWNERSHIP")**
+        const ownershipFontSize = 90 * scaleFactor;
+        ctx.font = `bold ${ownershipFontSize}px serif`;
+        ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
-        const nameX = canvas.width / 2;
-        const nameY = canvas.height * 0.60; // Under "OWNERSHIP"
-        ctx.fillText(name, nameX, nameY);
+        // **Move text 10 times down**
+        const moveDown = 10 * (ownershipFontSize / 2); // Move down based on font size
 
-        // **Custom Message Placement & Size (Slightly Higher)**
-        const messageFontSize = (22 * 2) * scaleFactor; // Increased size
-        ctx.font = `bold ${messageFontSize}px "YourCertificateFont"`;
+        // **Name Position (Under 'OWNERSHIP')**
+        const nameY = (canvasHeight * 0.42) + moveDown;  
 
-        const messageX = canvas.width / 2;
-        const messageY = nameY + 70; // Slightly higher than before
-        ctx.fillText(message, messageX, messageY);
+        // **Message Position (Above Second Underline)**
+        const messageY = (canvasHeight * 0.50) + moveDown;  
 
-        // Convert canvas to PDF
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF({
-            orientation: 'landscape',
-            unit: 'px',
-            format: [canvas.width, canvas.height]
-        });
+        ctx.fillText(name, canvasWidth / 2, nameY);
+        ctx.font = `italic ${ownershipFontSize / 2}px serif`;  
+        ctx.fillText(message, canvasWidth / 2, messageY);
 
-        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, canvas.width, canvas.height);
-        pdf.save('certificate.pdf');
+        // **Auto-download PDF**
+        downloadPDF(canvas);
+    };
+
+    img.onerror = function() {
+        alert("Error: Certificate template image not found.");
     };
 });
+
+// **Auto PDF Download**
+function downloadPDF(canvas) {
+    const imgData = canvas.toDataURL('image/png');
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+    });
+
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+    pdf.save('Certificate.pdf');
+}
