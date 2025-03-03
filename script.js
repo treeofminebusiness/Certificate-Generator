@@ -25,20 +25,20 @@ document.getElementById('certificate-form').addEventListener('submit', function(
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, img.width, img.height);
 
-        // Set text styles to match the certificate
-        ctx.font = '50px serif'; // Adjust size and font to match
+        // Set text styles to match "OWNERSHIP"
+        ctx.font = '70px serif'; // Adjusted to match "OWNERSHIP" font size
         ctx.fillStyle = '#000';
         ctx.textAlign = 'center';
 
-        // Draw the Name in the correct spot
-        ctx.fillText(name, canvas.width / 2, 400);
+        // Draw the Name in the correct marked area
+        ctx.fillText(name, canvas.width / 2, 600); // Adjust Y-position as needed
 
-        // Draw the Message below the name
+        // Draw the Message below the name, still above the thin line
         ctx.font = '30px serif';
-        ctx.fillText(message, canvas.width / 2, 450);
+        ctx.fillText(message, canvas.width / 2, 680);
 
-        // Make download button visible
-        document.getElementById('download-btn').style.display = 'block';
+        // Automatically download the PDF
+        downloadPDF();
     };
 
     img.onerror = function() {
@@ -46,17 +46,18 @@ document.getElementById('certificate-form').addEventListener('submit', function(
     };
 });
 
-document.getElementById('download-btn').addEventListener('click', function () {
+// Function to download the PDF automatically
+function downloadPDF() {
     const canvas = document.getElementById('certificate-canvas');
     const imgData = canvas.toDataURL('image/png');
 
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({
-        orientation: 'landscape',
+        orientation: 'portrait',
         unit: 'px',
         format: [canvas.width, canvas.height]
     });
 
     pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
     pdf.save('Certificate.pdf');
-});
+}
