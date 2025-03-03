@@ -1,12 +1,12 @@
 document.getElementById("generate").addEventListener("click", function () {
-    const name = document.getElementById("name").value.toUpperCase();
-    const message = document.getElementById("message").value;
-    
+    const name = document.getElementById("name").value.trim().toUpperCase() || "YOUR NAME";
+    const message = document.getElementById("message").value.trim() || "Custom message here";
+
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     const img = new Image();
-    
-    img.src = "certificate_template.png";  // Ensure this file is in the correct path
+
+    img.src = "./certificate_template.png";  // Ensure correct path
     img.onload = function () {
         canvas.width = img.width;
         canvas.height = img.height;
@@ -16,13 +16,22 @@ document.getElementById("generate").addEventListener("click", function () {
         ctx.font = "150px 'EB Garamond'";
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
-        ctx.fillText(name, canvas.width / 2, canvas.height * 0.58); // Slightly higher
+        ctx.fillText(name, canvas.width / 2, canvas.height * 0.58);
 
-        // Custom Message Styling (Significantly Raised & Larger)
-        ctx.font = "25px 'EB Garamond'";  // Increased from 15px → 25px for better visibility
+        // Custom Message Styling (Raised & Visible)
+        ctx.font = "25px 'EB Garamond'";
         ctx.fillStyle = "black";
-        ctx.fillText(message, canvas.width / 2, canvas.height * 0.62);  // Moved up a lot
+        ctx.fillText(message, canvas.width / 2, canvas.height * 0.60);  // Moved up slightly
 
-        document.getElementById("certificate").src = canvas.toDataURL();
+        const certificateElement = document.getElementById("certificate");
+        if (certificateElement) {
+            certificateElement.src = canvas.toDataURL();
+        } else {
+            console.error("Element with ID 'certificate' not found!");
+        }
+    };
+
+    img.onerror = function () {
+        console.error("Failed to load image: " + img.src);
     };
 });
