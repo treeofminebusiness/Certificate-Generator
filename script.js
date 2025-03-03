@@ -1,53 +1,55 @@
-window.onload = function () {
-    const canvas = document.getElementById('certificateCanvas');
-    const ctx = canvas.getContext('2d');
+// Load the certificate template
+const canvas = document.getElementById("certificateCanvas");
+const ctx = canvas.getContext("2d");
+const template = new Image();
+template.src = "certificate-template.png"; // Ensure this matches the correct filename
 
-    const certificateImage = new Image();
-    certificateImage.src = 'certificate-template.png'; // Make sure this matches your actual file name
+// Adjust A4 size for clarity
+canvas.width = 794; // A4 width
+canvas.height = 1123; // A4 height
 
-    certificateImage.onload = function () {
-        ctx.drawImage(certificateImage, 0, 0, canvas.width, canvas.height);
-    };
+// Ensure the image is drawn properly
+template.onload = function () {
+    ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 };
 
+// Function to generate the certificate
 function generateCertificate() {
-    const canvas = document.getElementById('certificateCanvas');
-    const ctx = canvas.getContext('2d');
+    // Clear the canvas and redraw the template
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(template, 0, 0, canvas.width, canvas.height);
 
-    const name = document.getElementById('name').value.trim().toUpperCase();
-    let message = document.getElementById('message').value.trim();
+    // Get user input
+    let name = document.getElementById("nameInput").value.toUpperCase();
+    let message = document.getElementById("messageInput").value;
 
     // Limit message to 10 words
-    const words = message.split(/\s+/);
+    let words = message.split(/\s+/);
     if (words.length > 10) {
-        message = words.slice(0, 10).join(' ');
-        alert("⚠️ Your message exceeded 10 words. Only the first 10 words were used.");
+        document.getElementById("warning").style.display = "block";
+        message = words.slice(0, 10).join(" ");
+    } else {
+        document.getElementById("warning").style.display = "none";
     }
 
-    // Reload background
-    const certificateImage = new Image();
-    certificateImage.src = 'certificate-template.png';
-    certificateImage.onload = function () {
-        ctx.drawImage(certificateImage, 0, 0, canvas.width, canvas.height);
+    // Text properties
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
 
-        ctx.textAlign = 'center';
+    // **NAME SETTINGS**
+    ctx.font = "bold 72px 'EB Garamond'"; // 200% bigger
+    ctx.fillText(name, canvas.width / 2, 550); // Adjusted to fit above the second line
 
-        // Name Styling (200% bigger than before)
-        ctx.font = '200px "EB Garamond", serif'; 
-        ctx.fillStyle = 'black';
-        ctx.fillText(name, canvas.width / 2, 1900);  // Adjusted to be **above** the second line
+    // **MESSAGE SETTINGS**
+    ctx.font = "italic 32px 'EB Garamond'"; // Thinner font
+    ctx.fillText(message, canvas.width / 2, 600); // Adjusted to align with design
 
-        // Message Styling (Thinner font like fixed text at the bottom)
-        ctx.font = '60px "EB Garamond", italic';
-        ctx.fillStyle = 'black';
-        ctx.fillText(message, canvas.width / 2, 2100);  // Positioned correctly in the lower half
-    };
 }
 
+// Function to download certificate
 function downloadCertificate() {
-    const canvas = document.getElementById('certificateCanvas');
-    const link = document.createElement('a');
-    link.download = 'Japan_Tree_Certificate.png';
-    link.href = canvas.toDataURL('image/png');
+    const link = document.createElement("a");
+    link.download = "Japan_Tree_Certificate.png";
+    link.href = canvas.toDataURL("image/png");
     link.click();
 }
