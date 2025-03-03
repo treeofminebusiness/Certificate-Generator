@@ -3,24 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate Generator</title>
+    <title>Japan Tree Certificate Generator</title>
     <style>
         body {
             text-align: center;
             font-family: Arial, sans-serif;
+        }
+        .input-container {
+            margin: 20px;
         }
         #certificate-container {
             position: relative;
             width: 800px;
             height: 600px;
             margin: auto;
-        }
-        #certificate {
-            width: 100%;
-            height: 100%;
-        }
-        .input-container {
-            margin: 20px;
         }
         canvas {
             border: 2px solid black;
@@ -43,11 +39,29 @@
     </div>
 
     <script>
-        function generateCertificate() {
-            const name = document.getElementById("nameInput").value;
-            let message = document.getElementById("messageInput").value;
+        // Wait until the DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            const canvas = document.getElementById("certificateCanvas");
+            const ctx = canvas.getContext("2d");
+            const bg = new Image();
+            bg.src = "certificate-template.jpg"; // Replace with your actual certificate image URL
 
-            if (!name.trim()) {
+            // Set canvas size
+            canvas.width = 800;
+            canvas.height = 600;
+
+            // Load and draw the background when the image is ready
+            bg.onload = function () {
+                ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+            };
+        });
+
+        // Function to generate the certificate
+        function generateCertificate() {
+            const name = document.getElementById("nameInput").value.trim();
+            let message = document.getElementById("messageInput").value.trim();
+
+            if (!name) {
                 alert("Please enter a name.");
                 return;
             }
@@ -55,35 +69,32 @@
             const canvas = document.getElementById("certificateCanvas");
             const ctx = canvas.getContext("2d");
 
-            // Set canvas size
-            canvas.width = 800;
-            canvas.height = 600;
-
-            // Load certificate background
             const bg = new Image();
-            bg.src = "certificate-template.jpg"; // Replace with your actual certificate image URL
+            bg.src = "certificate-template.jpg"; // Make sure this image exists
 
             bg.onload = function () {
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas before redrawing
                 ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-                // Set text styles
+                // Set font styles
                 ctx.font = "40px Arial";
                 ctx.fillStyle = "#000";
                 ctx.textAlign = "center";
 
-                // Place the name in the correct spot
+                // Place the name in the certificate
                 ctx.fillText(name, canvas.width / 2, 280);
 
                 // Limit message to 10 words
                 const words = message.split(" ").slice(0, 10);
                 message = words.join(" ");
 
-                // Display message below the name
+                // Display the message below the name
                 ctx.font = "25px Arial";
                 ctx.fillText(message, canvas.width / 2, 340);
             };
         }
 
+        // Function to download the certificate
         function downloadCertificate() {
             const canvas = document.getElementById("certificateCanvas");
             const link = document.createElement("a");
