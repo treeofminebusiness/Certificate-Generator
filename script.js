@@ -23,14 +23,14 @@ function generateCertificate() {
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        // Name settings (unchanged)
-        ctx.font = "bold 200px 'EB Garamond', serif";
+        // Name settings (reduced to 150px)
+        ctx.font = "bold 150px 'EB Garamond', serif";
         ctx.fillStyle = "black";
         ctx.textAlign = "center";
         ctx.fillText(name.toUpperCase(), canvas.width / 2, canvas.height * 0.55);
 
-        // Custom message settings (now 25px)
-        ctx.font = "italic 25px 'EB Garamond', serif"; // **Now smaller**
+        // Custom message settings (reduced to 10px)
+        ctx.font = "italic 10px 'EB Garamond', serif"; 
         ctx.fillText(message, canvas.width / 2, canvas.height * 0.63);
 
         document.getElementById("certificate").src = canvas.toDataURL("image/png");
