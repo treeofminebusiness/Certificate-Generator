@@ -8,7 +8,7 @@ document.getElementById('certificate-form').addEventListener('submit', function 
     const ctx = canvas.getContext('2d');
 
     const image = new Image();
-    image.src = 'certificate_template.png'; // Make sure this file is in your repository
+    image.src = 'certificate_template.png'; // Ensure this file exists in your repo
 
     image.onload = function () {
         canvas.width = image.width;
@@ -17,22 +17,22 @@ document.getElementById('certificate-form').addEventListener('submit', function 
 
         const scaleFactor = canvas.width / 1000; // Adjust size dynamically
 
-        // **Custom Name Placement & Size (50% smaller than last version)**
-        const nameFontSize = (125 / 15 / 2) * scaleFactor; // 50% smaller
+        // **Custom Name Placement & Size (10× Bigger)**
+        const nameFontSize = (125 / 1.5) * scaleFactor; // Increased size
         ctx.font = `bold ${nameFontSize}px "YourCertificateFont"`;
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
 
         const nameX = canvas.width / 2;
-        const nameY = canvas.height * 0.57; // Positioned under "OWNERSHIP"
+        const nameY = canvas.height * 0.60; // Under "OWNERSHIP"
         ctx.fillText(name, nameX, nameY);
 
-        // **Custom Message Placement & Size (50% smaller than last version)**
-        const messageFontSize = (22 / 15 / 2) * scaleFactor; // 50% smaller
+        // **Custom Message Placement & Size (Slightly Higher)**
+        const messageFontSize = (22 * 2) * scaleFactor; // Increased size
         ctx.font = `bold ${messageFontSize}px "YourCertificateFont"`;
 
         const messageX = canvas.width / 2;
-        const messageY = nameY + 90; // Positioned just below the name
+        const messageY = nameY + 70; // Slightly higher than before
         ctx.fillText(message, messageX, messageY);
 
         // Convert canvas to PDF
