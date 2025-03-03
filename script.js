@@ -33,20 +33,18 @@ function generateCertificate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-        // ✅ Set font styles for A4 format
-        ctx.font = "100px Arial"; 
+        // ✅ Set font for NAME (Match "OWNERSHIP" font)
+        ctx.font = "100px 'Playfair Display', serif"; 
         ctx.fillStyle = "#000";
         ctx.textAlign = "center";
-
-        // ✅ Place Name at correct position
         ctx.fillText(name, canvas.width / 2, 1400);
 
         // ✅ Limit message to 10 words
         const words = message.split(" ").slice(0, 10);
         message = words.join(" ");
 
-        // ✅ Display the message below the name
-        ctx.font = "60px Arial"; 
+        // ✅ Set font for MESSAGE (Same as "OWNERSHIP" font)
+        ctx.font = "60px 'Playfair Display', serif"; 
         ctx.fillText(message, canvas.width / 2, 1600);
     };
 
