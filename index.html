@@ -8,12 +8,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Generate Your Certificate</h1>
-        <input type="text" id="name" placeholder="Enter Name">
-        <button id="generate">Generate</button>
-        <br><br>
-        <img id="certificate" alt="Your Certificate">
+        <h1>Japan Tree Certificate Generator</h1>
+        <label for="name">Enter Name:</label>
+        <input type="text" id="name" placeholder="Your Name">
+
+        <button id="generate">Generate Certificate</button>
+        <a id="download" style="display: none;" download="Japan_Tree_Certificate.png">Download Certificate</a>
+
+        <canvas id="certificateCanvas"></canvas>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
